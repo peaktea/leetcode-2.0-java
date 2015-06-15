@@ -1,33 +1,31 @@
 public class Solution {
-
+	private String expendCenter(String s, int c1, int c2){
+		while(c1>=0&&c2<s.length&&s.charAt(c1)==s.charAt(c2)){
+			c1--;
+			c2++;
+		}
+		String res = s.substring(c1+1,c2);
+		return res;
+	}
     public String longestPalindrome(String s) {
 		int maxlength=0;
 		String maxstr=null;
         for(int i=0;i<s.length();i++){
 			//single center
-			int left=i-1;
-			int right=i+1;
-			int tmplength=1;
-			while(left>=0&&right<s.length()&&s.charAt(left)==s.charAt(right)){
-				tmplength+=2;
-				left--;
-				right++;
+			String substr1 = expendCenter(s,i,i);
+			String substr2 = "";
+			if(i>0){
+				//if i > 0, then we can test the double center
+				substr2 = expendCenter(s,i-1,i);
 			}
-			String maxstr1=s.substr(left+1,right);
-			//two center
-			int left1=i;
-			int right1=i+1;
-			int tmplength2=0;
-			while(left1>=0&&right1<s.length()&&s.charAt(left1)==s.charAt(right1)){
-				tmplength2+=2;
-				left1--;
-				right1++;
+			if(substr1.length()>substr2.length()&&substr1.length()>maxlength){
+				maxlength=substr1.length();
+				maxstr=substr1;
 			}
-			String maxstr2=s.substr(left+1,right);
-			String tmpstr=null;
-			if(tmplength>tmplength2) tmpstr=maxstr1;
-			else tmpstr=maxstr2
-			if(tmpstr.length()>maxlength) maxstr=tmpstr;
+			if(substr2.length()>substr1.length()&&substr2.length()>maxlength){
+				maxlength=substr2.length();
+				maxstr=substr2;
+			}
 		}
 		return maxstr;
     }
