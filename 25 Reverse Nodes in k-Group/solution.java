@@ -12,24 +12,42 @@ public class Solution {
 		Vector<ListNode> v = new Vector<ListNode>();
 		ListNode prenode=null;
 		ListNode curnode=head;
-		for(int i=0;i<k&&curnode!=null;i++){
+		int i=0;
+		for(;i<k&&curnode!=null;i++){
 			ListNode next = curnode.next;
 			curnode.next=prenode;
 			prenode=curnode;
 			curnode=next;
 		}
-		ListNode next=curnode;
 		Vector<ListNode> res = new Vector<ListNode>();
-		res.add(prenode);
-		res.add(head);
-		res.add(next);
+		if(i!=k){//not need to reverse, then should revers back
+			ListNode tmpnode=prenode;
+			ListNode pretmpnode=null;
+			while(true){
+				ListNode ttmpnext = tmpnode.next;
+				tmpnode.next =  pretmpnode;
+				pretmpnode=tmpnode;
+				tmpnode=ttmpnext;
+				if(tmpnode==null) break;
+			}
+			res.add(head);
+			res.add(prenode);
+			res.add(null);
+		}else{
+			ListNode next=curnode;
+			res.add(prenode);
+			res.add(head);
+			res.add(next);
+		}
+		
 		return res;
 	}
-    public ListNode swapPairs(ListNode head) {
+    public ListNode reverseKGroup(ListNode head, int k) {
+        if(head==null) return null;
         ListNode newhead = null;
 		ListNode tmptail = null;
 		while(true){
-			Vector<ListNode> res = getTuples(head,2);
+			Vector<ListNode> res = getTuples(head,k);
 			ListNode h=res.get(0);
 			ListNode t=res.get(1);
 			ListNode n=res.get(2);
