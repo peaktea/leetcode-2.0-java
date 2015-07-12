@@ -39,6 +39,7 @@ public class Solution {
 		};
         Queue queue = new PriorityQueue(lists.length,mc);
 		for(int i=0;i<lists.length;i++){
+			//there may be the contents in the lists is null, this is a corner case
 			if(lists[i]!=null)
 				queue.add(lists[i]);
 		}
